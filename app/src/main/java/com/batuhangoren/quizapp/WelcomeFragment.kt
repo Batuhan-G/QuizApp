@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.batuhangoren.quizapp.databinding.FragmentWelcomeBinding
 
@@ -20,9 +21,17 @@ class WelcomeFragment : Fragment() {
         _binding = FragmentWelcomeBinding.inflate(inflater, container, false)
 
         binding.startButton.setOnClickListener {
-            val action = WelcomeFragmentDirections.actionWelcomeFragmentToQuizQuestionFragment()
-                        findNavController().navigate(action)
+
+            binding.nameEditText.text.let {
+                if (it.toString().isNotEmpty()){
+                    val action = WelcomeFragmentDirections.actionWelcomeFragmentToQuizQuestionFragment()
+                    findNavController().navigate(action)
+                }else
+                    Toast.makeText(this.context,"Please enter a name.",Toast.LENGTH_SHORT).show()
+            }
         }
+
+
         return binding.root
     }
 }
