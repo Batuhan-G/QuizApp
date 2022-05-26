@@ -26,6 +26,23 @@ class QuizQuestionFragment : Fragment() {
             Log.e("Questions",i.question)
         }
 
+        var currentPosition = 1
+        val question : Question = questionsList[currentPosition-1]
+        val progressText = "$currentPosition/${binding.progressBar.max}"
+
+        binding.questionText.text = question.question
+        binding.flagImage.setImageResource(question.image)
+
+        binding.progressBar.progress = currentPosition
+        binding.progressText.text = progressText
+
+        binding.optionOne.text = question.option1
+        binding.optionTwo.text = question.option2
+        binding.optionThree.text = question.option3
+        binding.optionFour.text = question.option4
+
+
+
         return binding.root
     }
 }
