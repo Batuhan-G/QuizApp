@@ -18,5 +18,30 @@
         android:id="@+id/quizQuestionFragment"
         android:name="com.batuhangoren.quizapp.QuizQuestionFragment"
         android:label="fragment_quiz_question"
-        tools:layout="@layout/fragment_quiz_question" />
+        tools:layout="@layout/fragment_quiz_question" >
+        <action
+            android:id="@+id/action_quizQuestionFragment_to_resultFragment"
+            app:destination="@id/resultFragment" />
+        <argument
+            android:name="name"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/resultFragment"
+        android:name="com.batuhangoren.quizapp.ResultFragment"
+        android:label="fragment_result"
+        tools:layout="@layout/fragment_result" >
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <argument
+            android:name="correctAnswer"
+            app:argType="integer" />
+        <argument
+            android:name="totalQuestion"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_resultFragment_to_welcomeFragment"
+            app:destination="@id/welcomeFragment" />
+    </fragment>
 </navigation>

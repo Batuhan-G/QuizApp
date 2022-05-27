@@ -24,7 +24,10 @@ class WelcomeFragment : Fragment() {
 
             binding.nameEditText.text.let {
                 if (it.toString().isNotEmpty()){
-                    val action = WelcomeFragmentDirections.actionWelcomeFragmentToQuizQuestionFragment()
+                    val action =
+                        WelcomeFragmentDirections.
+                        actionWelcomeFragmentToQuizQuestionFragment(
+                            binding.nameEditText.text.toString())
                     findNavController().navigate(action)
                 }else
                     Toast.makeText(this.context,"Please enter a name.",Toast.LENGTH_SHORT).show()
