@@ -9,7 +9,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.batuhangoren.quizapp.databinding.FragmentQuizQuestionBinding
 import com.batuhangoren.quizapp.databinding.FragmentWelcomeBinding
 
@@ -18,9 +21,12 @@ class QuizQuestionFragment : Fragment(), View.OnClickListener {
     private var _binding: FragmentQuizQuestionBinding? = null
     private val binding get() = _binding!!
 
+    private val args: QuizQuestionFragmentArgs by navArgs()
+
     private var mCurrentPosition: Int = 1
     private var mQuestionsList: ArrayList<Question>? = null
     private var mSelectedOptionPosition : Int = 0
+    private var mCorrectAnswer : Int = 0
 
 
     override fun onCreateView(
@@ -44,6 +50,13 @@ class QuizQuestionFragment : Fragment(), View.OnClickListener {
     }
 
     private fun setQuestion() {
+
+        defaultOptionsView()
+
+        if (mCurrentPosition == mQuestionsList!!.size)
+            binding.buttonSubmit.text = "FINISH"
+        else
+            binding.buttonSubmit.text = "SUBMIT"
 
         val question: Question = mQuestionsList!![mCurrentPosition - 1]
 
@@ -77,7 +90,64 @@ class QuizQuestionFragment : Fragment(), View.OnClickListener {
             R.id.optionFour ->{
                 selectedOptionView(binding.optionFour,4)
             }
+            R.id.buttonSubmit ->{
+                if (mSelectedOptionPosition == 0){
+                    mCurrentPosition++
 
+                    when{
+                        mCurrentPosition <= mQuestionsList!!.size -> setQuestion()
+
+                        else ->{
+
+                            val action =
+                                QuizQuestionFragmentDirections.
+                                actionQuizQuestionFragmentToResultFragment(args.name,mCorrectAnswer, mQuestionsList!!.size)
+                            findNavController().navigate(action)
+                        }
+                    }
+                }else{
+                    val question = mQuestionsList?.get(mCurrentPosition - 1 )
+                    if(question!!.correctAnswer != mSelectedOptionPosition){
+                         answerView(mSelectedOptionPosition, R.drawable.wrong_option_border_bg)
+                    }else{
+                        mCorrectAnswer++
+                    }
+                    answerView(question.correctAnswer,R.drawable.correct_option_border_bg)
+
+                    if(mCurrentPosition == mQuestionsList!!.size){
+                        binding.buttonSubmit.text = "FINISH"
+                    }else{
+                        binding.buttonSubmit.text = "GO TO NEXT QUESTION"
+                    }
+                    mSelectedOptionPosition = 0
+                }
+            }
+        }
+    }
+
+    private fun answerView(answer: Int, drawableView: Int){
+
+        when(answer){
+            1->{
+                binding.optionOne.background = this.context?.let {
+                    ContextCompat.getDrawable(it, drawableView)
+                }
+            }
+            2->{
+                binding.optionTwo.background = this.context?.let {
+                    ContextCompat.getDrawable(it, drawableView)
+                }
+            }
+            3->{
+                binding.optionThree.background = this.context?.let {
+                    ContextCompat.getDrawable(it, drawableView)
+                }
+            }
+            4->{
+                binding.optionFour.background = this.context?.let {
+                    ContextCompat.getDrawable(it, drawableView)
+                }
+            }
         }
     }
 
@@ -117,4 +187,6 @@ class QuizQuestionFragment : Fragment(), View.OnClickListener {
             }
         }
     }
+
+
 }

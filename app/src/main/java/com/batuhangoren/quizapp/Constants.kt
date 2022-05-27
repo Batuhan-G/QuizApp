@@ -15,7 +15,7 @@ object Constants {
         questionList.add(quest1)
 
         val quest2 = Question(
-            1,
+            2,
             "What country does this flag belong to?",
             R.drawable.ic_flag_of_australia,
             "Angola", "Austria", "Australia", "Armenia", 3
@@ -79,7 +79,6 @@ object Constants {
 
         questionList.add(que9)
 
-        // 10
         val que10 = Question(
             10, "What country does this flag belong to?",
             R.drawable.ic_flag_of_kuwait,
